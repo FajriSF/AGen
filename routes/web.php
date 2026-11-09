@@ -67,6 +67,10 @@ Route::middleware(['auth', 'role:super_admin'])->group(function () {
     Route::get('/rm-managers', [RmManagerController::class, 'index'])->name('rm-managers.index');
     Route::get('/rm-managers/{rmManager}/edit', [RmManagerController::class, 'edit'])->name('rm-managers.edit');
     Route::patch('/rm-managers/{rmManager}', [RmManagerController::class, 'update'])->name('rm-managers.update');
+    Route::delete('rm-managers/{rm_manager}', [RmManagerController::class, 'destroy'])
+    ->name('rm-managers.destroy');
+    Route::get('rm-managers/create', [RmManagerController::class, 'create'])->name('rm-managers.create');
+    Route::post('rm-managers', [RmManagerController::class, 'store'])->name('rm-managers.store');
 });
 
 // API pencarian rekening — dipakai form surat (Team Leader) & proses impor (Super Admin); wajib login
