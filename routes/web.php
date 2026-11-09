@@ -7,6 +7,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\BankAccountController;
 use App\Http\Controllers\UserManagementController;
 use App\Http\Controllers\RmManagerController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\PasswordResetRequestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -77,4 +79,14 @@ Route::middleware(['auth', 'role:super_admin'])->group(function () {
 Route::middleware(['auth', 'role:team_leader,super_admin'])->group(function () {
     Route::get('/api/bank-accounts/search', [BankAccountController::class, 'search'])->name('api.bank-accounts.search');
     Route::get('/api/bank-accounts/check-duplicate', [BankAccountController::class, 'checkDuplicate'])->name('api.bank-accounts.check-duplicate');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::post('/notifications/read-all', [NotificationController::class, 'markAllAsRead'])->name('notifications.read-all');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::post('/password-requests/{passwordRequest}/approve', [PasswordResetRequestController::class, 'approve'])->name('password-requests.approve');
+    Route::post('/password-requests/{passwordRequest}/reject', [PasswordResetRequestController::class, 'reject'])->name('password-requests.reject');
 });
